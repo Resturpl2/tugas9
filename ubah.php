@@ -1,12 +1,12 @@
 <?php
 include "koneksi.php";
 
-if (!isset($_GET['no']) || empty($_GET['no'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("ID tidak ditemukan di URL!");
 }
-$no = (int) $_GET['no'];
+$id = (int) $_GET['id'];
 
-$result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no=$no") or die(mysqli_error($conn));
+$result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE id=$id") or die(mysqli_error($conn));
 $data = mysqli_fetch_assoc($result);
 
 if (!$data) {
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $harga = $_POST['harga'];
     $stok = $_POST['stok'];
 
-    $query = "UPDATE akun_ff SET spek='$spek', harga='$harga', stok='$stok' WHERE no=$no";
+    $query = "UPDATE akun_ff SET spek='$spek', harga='$harga', stok='$stok' WHERE id=$id";
     if (mysqli_query($conn, $query)) {
         header("Location: index.php");
         exit;
