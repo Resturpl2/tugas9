@@ -1,11 +1,11 @@
 <?php
 include "koneksi.php";
-$result = mysqli_query($conn, "SELECT * FROM akun_ff");
+$result = mysqli_query($conn, "SELECT * FROM akun_ff ORDER BY id ASC");
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rezxx Cruel</title>
+    <title>CRUD Stok Akun FF</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,7 +52,7 @@ $result = mysqli_query($conn, "SELECT * FROM akun_ff");
     <a href="tambah.php" class="btn">+ Tambah Data</a>
     <table>
         <tr>
-            <th>No</th>
+            <th>ID</th>
             <th>Spek</th>
             <th>Harga</th>
             <th>Stok</th>
@@ -60,13 +60,13 @@ $result = mysqli_query($conn, "SELECT * FROM akun_ff");
         </tr>
         <?php while($row = mysqli_fetch_assoc($result)) { ?>
         <tr>
-            <td><?= $row['no']; ?></td>
+            <td><?= $row['id']; ?></td>
             <td><?= $row['spek']; ?></td>
             <td><?= $row['harga']; ?></td>
             <td><?= $row['stok']; ?></td>
             <td>
-                <a href="ubah.php?no=<?= $row['no']; ?>">Ubah</a> | 
-                <a href="hapus.php?no=<?= $row['no']; ?>" onclick="return confirm('Yakin mau hapus?')">Hapus</a>
+                <a href="ubah.php?id=<?= $row['id']; ?>">Ubah</a> | 
+                <a href="hapus.php?id=<?= $row['id']; ?>" onclick="return confirm('Yakin mau hapus?')">Hapus</a>
             </td>
         </tr>
         <?php } ?>
