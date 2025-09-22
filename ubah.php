@@ -1,49 +1,46 @@
-<?php 
-include "koneksi.php"; 
-$no = $_GET['no'];
+<?php
+include "koneksi.php";
 
-// cek apakah data ada
-$data = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no=$no") or die(mysqli_error($conn));
-$row = mysqli_fetch_assoc($data);
+if (!isset($_GET['no']) || empty($_GET['no'])) {
+    die("ID tidak ditemukan di URL!");
+}
+$no = (int) $_GET['no'];
+
+$result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no=$no") or die(mysqli_error($conn));
+$data = mysqli_fetch_assoc($result);
+
+if (!$data) {
+    die("Data tidak ada!");
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $spek = $_POST['spek'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
+
+    $query = "UPDATE akun_ff SET spek='$spek', harga='$harga', stok='$stok' WHERE no=$no";
+    if (mysqli_query($conn, $query)) {
+        header("Location: index.php");
+        exit;
+    } else {
+        echo "Gagal update: " . mysqli_error($conn);
+    }
+}
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Ubah Akun FF</title>
-    <style>
-        body { background: radial-gradient(circle at top, #1a103d, #0a0320, #000000); font-family: 'Orbitron', sans-serif; color: #fff; text-align: center; }
-        form { margin: 50px auto; padding: 20px; width: 350px; background: rgba(20,20,40,0.9); border-radius: 15px; box-shadow: 0 0 25px #00ffff; }
-        input { margin: 10px; padding: 10px; width: 90%; border: none; border-radius: 8px; }
-        button { background: #111133; color: #0ff; padding: 10px 20px; border: none; border-radius: 10px; box-shadow: 0 0 8px #00ffff; }
-        button:hover { background: #222266; box-shadow: 0 0 15px #ff00ff; }
-    </style>
+    <title>Ubah Data</title>
 </head>
-<body>
-    <h1>Ubah Akun FF</h1>
-    <form method="post">
-        <input type="hidden" name="no" value="<?= $row['no'] ?>">
-        <input type="text" name="spek" value="<?= $row['spek'] ?>" required><br>
-        <input type="number" name="harga" value="<?= $row['harga'] ?>" required><br>
-        <input type="number" name="stok" value="<?= $row['stok'] ?>" required><br>
-        <button type="submit" name="update">Update</button>
+<body style="background:black;color:white;text-align:center;">
+    <h1>Ubah Akun Free Fire</h1>
+    <form method="POST">
+        <p>Spek: <input type="text" name="spek" value="<?= $data['spek']; ?>" required></p>
+        <p>Harga: <input type="number" name="harga" value="<?= $data['harga']; ?>" required></p>
+        <p>Stok: <input type="number" name="stok" value="<?= $data['stok']; ?>" required></p>
+        <button type="submit">Update</button>
     </form>
-    <?php
-    if (isset($_POST['update'])) {
-        $no    = $_POST['no'];
-        $spek  = $_POST['spek'];
-        $harga = $_POST['harga'];
-        $stok  = $_POST['stok'];
-
-        $q = mysqli_query($conn, "UPDATE akun_ff SET spek='$spek', harga='$harga', stok='$stok' WHERE no=$no");
-        
-        if ($q) {
-            echo "<script>alert('Data berhasil diubah');window.location='index.php';</script>";
-        } else {
-            echo "Gagal update: " . mysqli_error($conn);
-        }
-    }
-    ?>
+    <br>
+    <a href="index.php">Kembali</a>
 </body>
 </html>
-
