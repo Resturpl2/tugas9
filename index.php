@@ -1,6 +1,6 @@
 <?php
 include "koneksi.php";
-$result = mysqli_query($conn, "SELECT * FROM akun_ff ORDER BY no ASC");
+$result = mysqli_query($conn, "SELECT * FROM akun_ff");
 ?>
 <!DOCTYPE html>
 <html>
