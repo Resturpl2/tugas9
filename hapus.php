@@ -1,12 +1,12 @@
 <?php
 include "koneksi.php";
 
-if (!isset($_GET['no']) || empty($_GET['no'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("ID tidak ditemukan di URL!");
 }
-$no = (int) $_GET['no'];
+$id = (int) $_GET['id'];
 
-$query = "DELETE FROM akun_ff WHERE no=$no";
+$query = "DELETE FROM akun_ff WHERE id=$id";
 if (mysqli_query($conn, $query)) {
     header("Location: index.php");
     exit;
