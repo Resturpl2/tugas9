@@ -1,16 +1,16 @@
 <?php
 include "koneksi.php";
 
-if (isset($_GET['no'])) {
-    $no = $_GET['no'];
-    $q = mysqli_query($conn, "DELETE FROM akun_ff WHERE no=$no");
+if (!isset($_GET['no']) || empty($_GET['no'])) {
+    die("ID tidak ditemukan di URL!");
+}
+$no = (int) $_GET['no'];
 
-    if ($q) {
-        echo "<script>alert('Data berhasil dihapus');window.location='index.php';</script>";
-    } else {
-        echo "Gagal hapus: " . mysqli_error($conn);
-    }
+$query = "DELETE FROM akun_ff WHERE no=$no";
+if (mysqli_query($conn, $query)) {
+    header("Location: index.php");
+    exit;
 } else {
-    echo "ID tidak ditemukan!";
+    echo "Gagal hapus: " . mysqli_error($conn);
 }
 ?>
