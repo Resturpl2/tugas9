@@ -1,7 +1,9 @@
 <?php 
 include "koneksi.php"; 
 $no = $_GET['no'];
-$data = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no=$no");
+
+// cek apakah data ada
+$data = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no=$no") or die(mysqli_error($conn));
 $row = mysqli_fetch_assoc($data);
 ?>
 <!DOCTYPE html>
@@ -20,6 +22,7 @@ $row = mysqli_fetch_assoc($data);
 <body>
     <h1>Ubah Akun FF</h1>
     <form method="post">
+        <input type="hidden" name="no" value="<?= $row['no'] ?>">
         <input type="text" name="spek" value="<?= $row['spek'] ?>" required><br>
         <input type="number" name="harga" value="<?= $row['harga'] ?>" required><br>
         <input type="number" name="stok" value="<?= $row['stok'] ?>" required><br>
@@ -27,12 +30,20 @@ $row = mysqli_fetch_assoc($data);
     </form>
     <?php
     if (isset($_POST['update'])) {
-        $spek = $_POST['spek'];
+        $no    = $_POST['no'];
+        $spek  = $_POST['spek'];
         $harga = $_POST['harga'];
-        $stok = $_POST['stok'];
-        mysqli_query($conn, "UPDATE akun_ff SET spek='$spek', harga='$harga', stok='$stok' WHERE no=$no");
-        echo "<script>alert('Data berhasil diubah');window.location='index.php';</script>";
+        $stok  = $_POST['stok'];
+
+        $q = mysqli_query($conn, "UPDATE akun_ff SET spek='$spek', harga='$harga', stok='$stok' WHERE no=$no");
+        
+        if ($q) {
+            echo "<script>alert('Data berhasil diubah');window.location='index.php';</script>";
+        } else {
+            echo "Gagal update: " . mysqli_error($conn);
+        }
     }
     ?>
 </body>
 </html>
+
