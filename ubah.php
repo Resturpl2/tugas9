@@ -1,4 +1,5 @@
-<?php include "koneksi.php"; 
+<?php 
+include "koneksi.php"; 
 $no = $_GET['no'];
 $data = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no=$no");
 $row = mysqli_fetch_assoc($data);
