@@ -3,7 +3,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Rezxx Cruel</title>
+    <title>Stok Akun Free Fire</title>
     <style>
         body {
             font-family: 'Orbitron', sans-serif;
@@ -82,3 +82,4 @@
     </table>
 </body>
 </html>
+
