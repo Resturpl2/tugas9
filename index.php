@@ -8,7 +8,7 @@ $result = mysqli_query($conn, "SELECT * FROM akun_ff ORDER BY id ASC");
     <title>CRUD Stok Akun FF</title>
     <style>
         body { font-family: Arial; background: radial-gradient(circle at top, #1a103d, #0a0320, #000); color: #fff; text-align: center; }
-        table { margin: auto; border-collapse: collapse; width: 90%; background: rgba(255,255,255,0.1); }
+        table { margin: auto; border-collapse: collapse; width: 95%; background: rgba(255,255,255,0.1); }
         table, th, td { border: 1px solid #fff; padding: 10px; }
         th { background: #3f2b96; }
         a { color: #00ffcc; text-decoration: none; }
@@ -26,7 +26,7 @@ $result = mysqli_query($conn, "SELECT * FROM akun_ff ORDER BY id ASC");
             <th>Spek</th>
             <th>Harga</th>
             <th>Stok</th>
-            <th>Kode_otp</th>
+            <th>Kode OTP</th>
             <th>Status</th>
             <th>Aksi</th>
         </tr>
@@ -38,7 +38,6 @@ $result = mysqli_query($conn, "SELECT * FROM akun_ff ORDER BY id ASC");
             <td><?= $row['stok']; ?></td>
             <td><?= $row['kode_otp']; ?></td>
             <td><?= $row['status']; ?></td>
-                                                         
             <td>
                 <a href="ubah.php?id=<?= $row['id']; ?>">Ubah</a> | 
                 <a href="hapus.php?id=<?= $row['id']; ?>" onclick="return confirm('Yakin mau hapus?')">Hapus</a>
