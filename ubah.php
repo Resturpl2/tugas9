@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $status = $_POST['status'];
 
     $query = "UPDATE akun_ff 
-              SET spek='$spek', nickname='$nickname', tier='$tier', harga='$harga', stok='$stok' 
+              SET spek='$spek', harga='$harga', stok='$stok', kode_otp='$kode_otp', status='$status'
               WHERE id=$id";
     if (mysqli_query($conn, $query)) {
         header("Location: index.php");
@@ -42,8 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         <p>Spek: <input type="text" name="spek" value="<?= $data['spek']; ?>" required></p>
         <p>Harga: <input type="number" name="harga" value="<?= $data['harga']; ?>" required></p>
         <p>Stok: <input type="number" name="stok" value="<?= $data['stok']; ?>" required></p>
-        <p>Kode_otp: <input type="text" name="kode_otp" value="<?= $data['kode_otp']; ?>" required></p>
-        <p>Status: <input type="text" name="status" value="<?= $data['status']; ?>" required></p>
+        <p>Kode OTP: <input type="text" name="kode_otp" value="<?= $data['kode_otp']; ?>" required></p>
+        <p>Status: 
+            <select name="status" required>
+                <option value="Aktif" <?= ($data['status']=="Aktif"?"selected":""); ?>>Aktif</option>
+                <option value="Tidak Aktif" <?= ($data['status']=="Tidak Aktif"?"selected":""); ?>>Tidak Aktif</option>
+            </select>
+        </p>
         <button type="submit">Update</button>
     </form>
     <br>
