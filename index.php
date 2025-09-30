@@ -1,49 +1,88 @@
-<?php
-include "koneksi.php";
-$result = mysqli_query($conn, "SELECT * FROM akun_ff ORDER BY id ASC");
-?>
+<?php include "koneksi.php"; ?>
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>CRUD Stok Akun FF</title>
+    <meta charset="UTF-8">
+    <title>Stok Akun Free Fire</title>
     <style>
-        body { font-family: Arial; background: radial-gradient(circle at top, #1a103d, #0a0320, #000); color: #fff; text-align: center; }
-        table { margin: auto; border-collapse: collapse; width: 95%; background: rgba(255,255,255,0.1); }
-        table, th, td { border: 1px solid #fff; padding: 10px; }
-        th { background: #3f2b96; }
-        a { color: #00ffcc; text-decoration: none; }
-        a:hover { color: yellow; }
-        .btn { margin: 10px; padding: 8px 15px; background: #3f2b96; color: #fff; border-radius: 5px; }
-        .btn:hover { background: #00ffcc; color: #000; }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: radial-gradient(circle at top, #1a103d, #0a0320, #000000);
+            color: #fff;
+            text-align: center;
+        }
+        h1 {
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+        }
+        a {
+            color: #00ffff;
+            text-decoration: none;
+            padding: 8px 12px;
+            background: #111133;
+            border-radius: 10px;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 0 0 8px #00ffff;
+        }
+        a:hover {
+            background: #222266;
+            box-shadow: 0 0 15px #ff00ff;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: rgba(20, 20, 40, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 25px #00ffff;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+        th {
+            background: #220044;
+            color: #0ff;
+            text-shadow: 0 0 5px #ff0;
+        }
+        td {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <h1>Data Stok Akun Free Fire</h1>
-    <a href="tambah.php" class="btn">+ Tambah Data</a>
+    <h1>🌌 Stok Akun Free Fire 🌌</h1>
+    <a href="tambah.php">+ Tambah Akun</a>
     <table>
         <tr>
-            <th>ID</th>
-            <th>Spek</th>
+            <th>No</th>
+            <th>Spesifikasi</th>
+            <th>Pasien</th>
             <th>Harga</th>
             <th>Stok</th>
-            <th>Kode OTP</th>
-            <th>Status</th>
             <th>Aksi</th>
         </tr>
-        <?php while($row = mysqli_fetch_assoc($result)) { ?>
-        <tr>
-            <td><?= $row['id']; ?></td>
-            <td><?= $row['spek']; ?></td>
-            <td><?= $row['harga']; ?></td>
-            <td><?= $row['stok']; ?></td>
-            <td><?= $row['kode_otp']; ?></td>
-            <td><?= $row['status']; ?></td>
-            <td>
-                <a href="ubah.php?id=<?= $row['id']; ?>">Ubah</a> | 
-                <a href="hapus.php?id=<?= $row['id']; ?>" onclick="return confirm('Yakin mau hapus?')">Hapus</a>
-            </td>
-        </tr>
-        <?php } ?>
+        <?php
+        $result = mysqli_query($conn, "SELECT * FROM akun_ff");
+        $no = 1;
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>
+                    <td>".$no++."</td>
+                    <td>".$row['spek']."</td>
+                    <td>".$row['pasien']."</td>
+                    <td>Rp ".number_format($row['harga'],0,',','.')."</td>
+                    <td>".$row['stok']."</td>
+                    <td>
+                        <a href='ubah.php?no=".$row['no']."'>Ubah</a>
+                        <a href='hapus.php?no=".$row['no']."' onclick=\"return confirm('Hapus data ini?')\">Hapus</a>
+                    </td>
+                  </tr>";
+        }
+        ?>
     </table>
 </body>
 </html>
+
+
