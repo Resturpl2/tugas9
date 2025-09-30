@@ -1,57 +1,46 @@
-<?php
-include "koneksi.php";
-
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    die("ID tidak ditemukan di URL!");
-}
-$id = (int) $_GET['id'];
-
-$result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE id=$id") or die(mysqli_error($conn));
-$data = mysqli_fetch_assoc($result);
-
-if (!$data) {
-    die("Data tidak ada!");
-}
-
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $spek = $_POST['spek'];
-    $harga = $_POST['harga'];
-    $stok = $_POST['stok'];
-    $kode_otp = $_POST['kode_otp'];
-    $status = $_POST['status'];
-
-    $query = "UPDATE akun_ff 
-              SET spek='$spek', harga='$harga', stok='$stok', kode_otp='$kode_otp', status='$status'
-              WHERE id=$id";
-    if (mysqli_query($conn, $query)) {
-        header("Location: index.php");
-        exit;
-    } else {
-        echo "Gagal update: " . mysqli_error($conn);
-    }
-}
-?>
+<?php include "koneksi.php"; ?>
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Ubah Data</title>
+    <meta charset="UTF-8">
+    <title>Ubah Akun</title>
 </head>
-<body style="background:black;color:white;text-align:center;">
-    <h1>Ubah Akun Free Fire</h1>
-    <form method="POST">
-        <p>Spek: <input type="text" name="spek" value="<?= $data['spek']; ?>" required></p>
-        <p>Harga: <input type="number" name="harga" value="<?= $data['harga']; ?>" required></p>
-        <p>Stok: <input type="number" name="stok" value="<?= $data['stok']; ?>" required></p>
-        <p>Kode OTP: <input type="text" name="kode_otp" value="<?= $data['kode_otp']; ?>" required></p>
-        <p>Status: 
-            <select name="status" required>
-                <option value="Aktif" <?= ($data['status']=="Aktif"?"selected":""); ?>>Aktif</option>
-                <option value="Tidak Aktif" <?= ($data['status']=="Tidak Aktif"?"selected":""); ?>>Tidak Aktif</option>
-            </select>
-        </p>
-        <button type="submit">Update</button>
+<body>
+    <h2>Ubah Akun Free Fire</h2>
+    <?php
+    $no = $_GET['no'];
+    $result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no='$no'");
+    $row = mysqli_fetch_assoc($result);
+    ?>
+    <form method="post">
+        <label>Spesifikasi</label><br>
+        <input type="text" name="spek" value="<?php echo $row['spek']; ?>" required><br><br>
+
+        <label>Pasien</label><br>
+        <input type="text" name="pasien" value="<?php echo $row['pasien']; ?>" required><br><br>
+
+        <label>Harga</label><br>
+        <input type="number" name="harga" value="<?php echo $row['harga']; ?>" required><br><br>
+
+        <label>Stok</label><br>
+        <input type="number" name="stok" value="<?php echo $row['stok']; ?>" required><br><br>
+
+        <button type="submit" name="ubah">Simpan Perubahan</button>
     </form>
-    <br>
-    <a href="index.php">Kembali</a>
+
+    <?php
+    if (isset($_POST['ubah'])) {
+        $spek   = $_POST['spek'];
+        $pasien = $_POST['pasien'];
+        $harga  = $_POST['harga'];
+        $stok   = $_POST['stok'];
+
+        mysqli_query($conn, "UPDATE akun_ff SET spek='$spek', pasien='$pasien', harga='$harga', stok='$stok' WHERE no='$no'");
+        echo "<script>alert('Data berhasil diubah!'); window.location='index.php';</script>";
+    }
+    ?>
 </body>
 </html>
+
+
+
