@@ -1,46 +1,50 @@
-<?php include "koneksi.php"; ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Ubah Akun</title>
-</head>
-<body>
-    <h2>Ubah Akun Free Fire</h2>
-    <?php
-    $no = $_GET['no'];
-    $result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE no='$no'");
-    $row = mysqli_fetch_assoc($result);
-    ?>
-    <form method="post">
-        <label>Spesifikasi</label><br>
-        <input type="text" name="spek" value="<?php echo $row['spek']; ?>" required><br><br>
+<?php
+include "koneksi.php";
 
-        <label>Pasien</label><br>
-        <input type="text" name="pasien" value="<?php echo $row['pasien']; ?>" required><br><br>
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die("ID tidak ditemukan di URL!");
+}
+$id = (int) $_GET['id'];
 
-        <label>Harga</label><br>
-        <input type="number" name="harga" value="<?php echo $row['harga']; ?>" required><br><br>
+$result = mysqli_query($conn, "SELECT * FROM akun_ff WHERE id=$id") or die(mysqli_error($conn));
+$data = mysqli_fetch_assoc($result);
 
-        <label>Stok</label><br>
-        <input type="number" name="stok" value="<?php echo $row['stok']; ?>" required><br><br>
+if (!$data) {
+    die("Data tidak ada!");
+}
 
-        <button type="submit" name="ubah">Simpan Perubahan</button>
-    </form>
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $spek = $_POST['spek'];
+    $pasien = $_POST['pasien'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
 
-    <?php
-    if (isset($_POST['ubah'])) {
-        $spek   = $_POST['spek'];
-        $pasien = $_POST['pasien'];
-        $harga  = $_POST['harga'];
-        $stok   = $_POST['stok'];
-
-        mysqli_query($conn, "UPDATE akun_ff SET spek='$spek', pasien='$pasien', harga='$harga', stok='$stok' WHERE no='$no'");
-        echo "<script>alert('Data berhasil diubah!'); window.location='index.php';</script>";
+    $query = "UPDATE akun_ff 
+              SET spek='$spek', pasien='$pasien', harga='$harga', stok='$stok'
+              WHERE id=$id";
+    if (mysqli_query($conn, $query)) {
+        header("Location: index.php");
+        exit;
+    } else {
+        echo "Gagal update: " . mysqli_error($conn);
     }
-    ?>
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ubah Data</title>
+</head>
+<body style="background:black;color:white;text-align:center;">
+    <h1>Ubah Akun Free Fire</h1>
+    <form method="POST">
+        <p>Spek: <input type="text" name="spek" value="<?= $data['spek']; ?>" required></p>
+        <p>Pasien: <input type="text" name="pasien" value="<?= $data['pasien']; ?>" required></p>
+        <p>Harga: <input type="number" name="harga" value="<?= $data['harga']; ?>" required></p>
+        <p>Stok: <input type="number" name="stok" value="<?= $data['stok']; ?>" required></p>
+        <button type="submit">Update</button>
+    </form>
+    <br>
+    <a href="index.php">Kembali</a>
 </body>
 </html>
-
-
-
