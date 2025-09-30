@@ -30,7 +30,13 @@
         $harga  = $_POST['harga'];
         $stok   = $_POST['stok'];
 
-        mysqli_query($conn, "INSERT INTO akun_ff (spek, pasien, harga, stok) VALUES ('$spek','$pasien','$harga','$stok')");
+        // generate kode OTP otomatis (6 digit angka)
+        $kode_otp = rand(100000, 999999);
+
+        // simpan ke database
+        mysqli_query($conn, "INSERT INTO akun_ff (spek, pasien, harga, stok, kode_otp) 
+                             VALUES ('$spek','$pasien','$harga','$stok','$kode_otp')");
+
         echo "<script>alert('Data berhasil disimpan!'); window.location='index.php';</script>";
     }
     ?>
