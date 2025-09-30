@@ -75,8 +75,8 @@
                     <td>Rp ".number_format($row['harga'],0,',','.')."</td>
                     <td>".$row['stok']."</td>
                     <td>
-                        <a href='ubah.php?no=".$row['no']."'>Ubah</a>
-                        <a href='hapus.php?no=".$row['no']."' onclick=\"return confirm('Hapus data ini?')\">Hapus</a>
+                        <a href='ubah.php?id=".$row['id']."'>Ubah</a>
+                        <a href='hapus.php?id=".$row['id']."' onclick=\"return confirm('Hapus data ini?')\">Hapus</a>
                     </td>
                   </tr>";
         }
@@ -84,5 +84,6 @@
     </table>
 </body>
 </html>
+
 
 
