@@ -1,47 +1,37 @@
-<?php include "koneksi.php"; ?>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Tambah Akun</title>
-</head>
-<body>
-    <h2>Tambah Akun Free Fire</h2>
-    <form method="post">
-        <label>Spesifikasi</label><br>
-        <input type="text" name="spek" required><br><br>
+<?php
+include "koneksi.php";
 
-        <label>Pasien</label><br>
-        <input type="text" name="pasien" required><br><br>
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $spek = $_POST['spek'];
+    $pasien = $_POST['pasien'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
 
-        <label>Harga</label><br>
-        <input type="number" name="harga" required><br><br>
-
-        <label>Stok</label><br>
-        <input type="number" name="stok" required><br><br>
-
-        <button type="submit" name="simpan">Simpan</button>
-    </form>
-
-    <?php
-    if (isset($_POST['simpan'])) {
-        $spek   = $_POST['spek'];
-        $pasien = $_POST['pasien'];
-        $harga  = $_POST['harga'];
-        $stok   = $_POST['stok'];
-
-        // generate kode OTP otomatis (6 digit angka)
-        $kode_otp = rand(100000, 999999);
-
-        // status otomatis aktif (1 = aktif, 0 = nonaktif)
-        $status = 1;
-
-        mysqli_query($conn, "INSERT INTO akun_ff (spek, pasien, harga, stok, kode_otp, status) 
-                             VALUES ('$spek','$pasien','$harga','$stok','$kode_otp','$status')");
-
-        echo "<script>alert('Data berhasil disimpan!'); window.location='index.php';</script>";
+    $query = "INSERT INTO akun_ff (spek, pasien, harga, stok) 
+              VALUES ('$spek', '$pasien', '$harga', '$stok')";
+    if (mysqli_query($conn, $query)) {
+        header("Location: index.php");
+        exit;
+    } else {
+        echo "Gagal tambah: " . mysqli_error($conn);
     }
-    ?>
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tambah Data</title>
+</head>
+<body style="background:black;color:white;text-align:center;">
+    <h1>Tambah Akun Free Fire</h1>
+    <form method="POST">
+        <p>Spek: <input type="text" name="spek" required></p>
+        <p>Pasien: <input type="text" name="pasien" required></p>
+        <p>Harga: <input type="number" name="harga" required></p>
+        <p>Stok: <input type="number" name="stok" required></p>
+        <button type="submit">Simpan</button>
+    </form>
+    <br>
+    <a href="index.php">Kembali</a>
 </body>
 </html>
-
