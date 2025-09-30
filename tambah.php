@@ -36,7 +36,6 @@
         // status otomatis aktif (1 = aktif, 0 = nonaktif)
         $status = 1;
 
-        // simpan ke database
         mysqli_query($conn, "INSERT INTO akun_ff (spek, pasien, harga, stok, kode_otp, status) 
                              VALUES ('$spek','$pasien','$harga','$stok','$kode_otp','$status')");
 
