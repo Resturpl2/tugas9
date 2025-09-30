@@ -31,7 +31,7 @@
         table {
             margin: 20px auto;
             border-collapse: collapse;
-            width: 80%;
+            width: 90%;
             background: rgba(20, 20, 40, 0.9);
             border-radius: 15px;
             overflow: hidden;
@@ -62,6 +62,7 @@
             <th>Pasien</th>
             <th>Harga</th>
             <th>Stok</th>
+            <th>Status</th>
             <th>Aksi</th>
         </tr>
         <?php
@@ -74,9 +75,10 @@
                     <td>".$row['pasien']."</td>
                     <td>Rp ".number_format($row['harga'],0,',','.')."</td>
                     <td>".$row['stok']."</td>
+                    <td>".(($row['status']==1) ? "Aktif" : "Nonaktif")."</td>
                     <td>
-                        <a href='ubah.php?id=".$row['id']."'>Ubah</a>
-                        <a href='hapus.php?id=".$row['id']."' onclick=\"return confirm('Hapus data ini?')\">Hapus</a>
+                        <a href='ubah.php?no=".$row['no']."'>Ubah</a>
+                        <a href='hapus.php?no=".$row['no']."' onclick=\"return confirm('Hapus data ini?')\">Hapus</a>
                     </td>
                   </tr>";
         }
@@ -84,6 +86,4 @@
     </table>
 </body>
 </html>
-
-
 
