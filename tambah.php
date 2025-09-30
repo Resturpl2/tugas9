@@ -33,14 +33,16 @@
         // generate kode OTP otomatis (6 digit angka)
         $kode_otp = rand(100000, 999999);
 
+        // status otomatis aktif
+        $status = "Aktif";
+
         // simpan ke database
-        mysqli_query($conn, "INSERT INTO akun_ff (spek, pasien, harga, stok, kode_otp) 
-                             VALUES ('$spek','$pasien','$harga','$stok','$kode_otp')");
+        mysqli_query($conn, "INSERT INTO akun_ff (spek, pasien, harga, stok, kode_otp, status) 
+                             VALUES ('$spek','$pasien','$harga','$stok','$kode_otp','$status')");
 
         echo "<script>alert('Data berhasil disimpan!'); window.location='index.php';</script>";
     }
     ?>
 </body>
 </html>
-
 
